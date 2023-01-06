@@ -1,5 +1,8 @@
-import { colors } from './colors'
+import { colors as themeColors } from './colors'
+import { getThemeColors } from './utils/getColors'
 
 export const theme = {
-  colors
+  colors: themeColors
 }
+
+export const colors = getThemeColors()
