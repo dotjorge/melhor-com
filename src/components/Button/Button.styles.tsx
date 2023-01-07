@@ -35,8 +35,8 @@ const Button = styled.button`
     transform-origin: center;
     z-index: -1;
     outline: 2px solid transparent;
-    outline-offset: 0px;
-    transition: transform 0.2s ease, outline 0.2s ease;
+    outline-offset: 2px;
+    transition: transform 0.2s ease;
   }
 
   &:hover {
@@ -51,8 +51,7 @@ const Button = styled.button`
   &:focus {
     &:before {
       border: 1px solid transparent;
-      outline-color: ${colors.black};
-      outline-offset: 2px;
+      outline-color: ${colors.primary};
     }
   }
 `
