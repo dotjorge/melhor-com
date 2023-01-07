@@ -48,6 +48,10 @@ const Button = styled.button`
     }
   }
 
+  &:active {
+    opacity: 0.8;
+  }
+
   &:focus {
     &:before {
       border: 1px solid transparent;
