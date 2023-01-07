@@ -3,6 +3,7 @@ import { colors, radius } from 'theme'
 
 const Button = styled.button`
   position: relative;
+  width: fit-content;
   font-size: 17px;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -17,6 +18,7 @@ const Button = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 1;
   transition: color 0.2s ease;
 
   &:before {
