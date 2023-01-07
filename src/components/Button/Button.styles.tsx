@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components'
 import { colors, radius } from 'theme'
+import { Link } from 'react-router-dom'
 
-const Button = styled.button`
+const ButtonAppearence = css`
   position: relative;
   width: fit-content;
   font-size: 17px;
@@ -60,4 +61,12 @@ const Button = styled.button`
   }
 `
 
-export default { Button }
+const LinkButton = styled(Link)`
+  ${ButtonAppearence};
+`
+
+const Button = styled.button`
+  ${ButtonAppearence};
+`
+
+export default { Button, LinkButton }

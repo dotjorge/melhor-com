@@ -1,8 +1,8 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes, RefAttributes } from 'react'
 import { FC } from 'types'
 import Styled from './Button.styles'
 
-interface IButton {
+export interface IButton {
   text: string
   iconLeft?: JSX.Element
 }
@@ -13,9 +13,11 @@ export const Button: FC<IButton & DefaultButtonProps> = props => {
   const { text, iconLeft, ...rest } = props
 
   return (
-    <Styled.Button {...rest}>
-      <span>{iconLeft}</span>
-      {text}
-    </Styled.Button>
+    <>
+      <Styled.Button {...rest}>
+        <span>{iconLeft}</span>
+        {text}
+      </Styled.Button>
+    </>
   )
 }
