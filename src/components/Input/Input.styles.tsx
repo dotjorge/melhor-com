@@ -6,7 +6,6 @@ const Input = styled.input`
   width: fit-content;
   font-size: 18px;
   letter-spacing: 0;
-  text-transform: uppercase;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   color: ${colors.black};
