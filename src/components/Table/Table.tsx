@@ -1,5 +1,5 @@
-import React, { ButtonHTMLAttributes } from 'react'
-import { Fragment, ReactNode } from 'react'
+import { ButtonHTMLAttributes, useMemo } from 'react'
+import { Fragment } from 'react'
 import { FC } from 'types'
 import Styled from './Table.styles'
 
@@ -41,16 +41,17 @@ export const Table: FC<ITable> = ({
   }
 
   const titles = Object.keys(items[0]).map(key => key)
-
   const idIndex = titles.findIndex(title => title === 'id')
 
   const isId = (index: number) => {
     return idIndex === index
   }
 
-  const columns = items.map(item => {
-    return Object.values(item).map(value => value as string)
-  })
+  const columns = useMemo(() => {
+    return items.map(item => {
+      return Object.values(item).map(value => value as string)
+    })
+  }, [items])
 
   return (
     <Styled.Table>
