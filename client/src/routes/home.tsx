@@ -1,47 +1,21 @@
-import { Button, Table, Link } from 'components'
+import { Table, Link } from 'components'
 import EditIcon from 'icons/edit-24px.svg'
 import DeleteIcon from 'icons/delete-24px.svg'
+import { trpc } from 'trpc/client'
 
 export const Home = () => {
-  const MOCK = [
-    {
-      id: '1',
-      model: 'Galaxy 5',
-      brand: 'Sansung',
-      price: '900',
-      date: '26/04/2019',
-      endDate: '12/12/2022',
-      color: 'BLACK',
-      code: '#12212'
-    },
-    {
-      id: '2',
-      model: 'Galaxy 5',
-      brand: 'Sansung',
-      price: '900',
-      date: '26/04/2019',
-      endDate: '12/12/2022',
-      color: 'BLACK',
-      code: '#12212'
-    },
-    {
-      id: '3',
-      model: 'Galaxy 5',
-      brand: 'Sansung',
-      price: '900',
-      date: '26/04/2019',
-      endDate: '12/12/2022',
-      color: 'BLACK',
-      code: '#12212'
-    }
-  ]
+  const phones = trpc.getPhones.useQuery(undefined, {})
+
+  if (phones.isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <Table
       title="Produtos"
       button={<Link to="/adicionar" text="Adicionar" iconLeft={<>+</>} />}
-      items={MOCK.map(item => ({
-        id: item.id,
+      items={phones.data?.map(item => ({
+        id: item.code,
         Código: item.code,
         Modelo: item.model,
         Preço: item.price,

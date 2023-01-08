@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
 import { api } from 'services/api'
+import { trpc } from 'trpc/client'
 
 const required = z.string().min(2, { message: 'Campo obrigatório' }).max(255)
 
@@ -24,17 +25,6 @@ interface IAddOrEditPhone {
 }
 
 export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
-  // phone = {
-  //   id: '1',
-  //   model: 'Galaxy 5',
-  //   brand: 'Sansung',
-  //   price: '900',
-  //   date: '26/04/2019',
-  //   endDate: '12/12/2022',
-  //   color: 'BLACK',
-  //   code: '#12212'
-  // }
-
   const isAddingNew = !phone
 
   const {
@@ -53,13 +43,37 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
     resolver: zodResolver(schema)
   })
 
+  const teste = trpc.addPhone.useMutation({
+    onError: error => console.log('#onError', error.message),
+    onMutate: data => console.log('#mutate', data)
+  })
+
+  if (teste.error?.data?.zodError) {
+    console.log('#', teste.error?.data?.zodError)
+    // zodError will be inferred
+    return (
+      <pre>Error: {JSON.stringify(teste.error.data.zodError, null, 2)}</pre>
+    )
+  }
+
   return (
     <>
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
       <Styled.Form
         onSubmit={handleSubmit(data => {
+          // api.post('/phone', { body: { ...data, code: '#12212' } })
+
           console.log(data, isAddingNew)
-          api.post('/phone', { body: { ...data, code: '#12212' } })
+
+          teste.mutate({
+            brand: 'Brand',
+            code: '#12121d',
+            color: 'BLACK',
+            date: '08/01/2023',
+            endDate: '08/01/2023',
+            model: 'J5',
+            price: '1500'
+          })
         })}
       >
         <Input

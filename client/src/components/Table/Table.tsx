@@ -6,7 +6,7 @@ import Styled from './Table.styles'
 interface ITable {
   title: string
   button: JSX.Element
-  items: Item[]
+  items: Item[] | undefined
   renderButtons?: ({ Button, id, index }: RenderButton) => JSX.Element
   replaceColumnTitles?: string[]
 }
@@ -28,7 +28,7 @@ type DefaultButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 export const Table: FC<ITable> = ({
   title,
   button,
-  items,
+  items = [],
   renderButtons,
   replaceColumnTitles
 }) => {
@@ -85,7 +85,7 @@ export const Table: FC<ITable> = ({
               <tr key={index}>
                 {row.map((value, index) => {
                   if (!isId(index)) {
-                    return <td>{value}</td>
+                    return <td key={index}>{value}</td>
                   }
                 })}
                 {/* Space */}
