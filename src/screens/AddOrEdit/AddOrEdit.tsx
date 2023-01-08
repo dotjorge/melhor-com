@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
+import { api } from 'services/api'
 
 const required = z.string().min(2, { message: 'Campo obrigatório' }).max(255)
 
@@ -12,8 +13,8 @@ const schema = z.object({
   brand: z.string().min(1, { message: 'Campo obrigatório' }),
   color: z.string().min(1, { message: 'Campo obrigatório' }),
   price: z.string().min(1, { message: 'Campo obrigatório' }),
-  'sales-start': z.string().min(1, { message: 'Campo obrigatório' }),
-  'sales-end': z.string().min(1, { message: 'Campo obrigatório' })
+  date: z.string().min(1, { message: 'Campo obrigatório' }),
+  endDate: z.string().min(1, { message: 'Campo obrigatório' })
 })
 
 type fields = z.infer<typeof schema>
@@ -23,16 +24,16 @@ interface IAddOrEditPhone {
 }
 
 export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
-  phone = {
-    id: '1',
-    model: 'Galaxy 5',
-    brand: 'Sansung',
-    price: '900',
-    date: '26/04/2019',
-    endDate: '12/12/2022',
-    color: 'BLACK',
-    code: '#12212'
-  }
+  // phone = {
+  //   id: '1',
+  //   model: 'Galaxy 5',
+  //   brand: 'Sansung',
+  //   price: '900',
+  //   date: '26/04/2019',
+  //   endDate: '12/12/2022',
+  //   color: 'BLACK',
+  //   code: '#12212'
+  // }
 
   const isAddingNew = !phone
 
@@ -46,8 +47,8 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
       brand: phone?.brand,
       color: phone?.color,
       price: phone?.price,
-      'sales-start': phone?.date,
-      'sales-end': phone?.endDate
+      date: phone?.date,
+      endDate: phone?.endDate
     },
     resolver: zodResolver(schema)
   })
@@ -57,7 +58,8 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
       <Styled.Form
         onSubmit={handleSubmit(data => {
-          console.log(data)
+          console.log(data, isAddingNew)
+          api.post('/phone', { body: { ...data, code: '#12212' } })
         })}
       >
         <Input
@@ -91,15 +93,15 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
         <Input
           label="Inicio das vendas"
           placeholder="15/03/2020"
-          error={errors?.['sales-start']?.message}
-          {...register('sales-start')}
+          error={errors?.['date']?.message}
+          {...register('date')}
         />
 
         <Input
           label="Fim das vendas"
           placeholder="14/06/2020"
-          error={errors?.['sales-end']?.message}
-          {...register('sales-end')}
+          error={errors?.['endDate']?.message}
+          {...register('endDate')}
         />
 
         <div></div>
