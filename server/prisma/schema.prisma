@@ -6,6 +6,18 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model Phone {
+  code      String   @id @default(uuid())
+  model     String
+  price     Decimal
+  brand     String
+  color     String
+  startDate DateTime
+  endDate   DateTime
+
+  @@map("phones")
 }
