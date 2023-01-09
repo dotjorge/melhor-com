@@ -40,7 +40,13 @@ export const Table: FC<ITable> = ({
     )
   }
 
-  const titles = Object.keys(items[0]).map(key => key)
+  const hasNoItems = items.length === 0
+
+  const titles = useMemo(() => {
+    if (hasNoItems) return []
+    return Object.keys(items[0]).map(key => key)
+  }, [items])
+
   const idIndex = titles.findIndex(title => title === 'id')
 
   const isId = (index: number) => {
@@ -48,6 +54,7 @@ export const Table: FC<ITable> = ({
   }
 
   const columns = useMemo(() => {
+    if (hasNoItems) return []
     return items.map(item => {
       return Object.values(item).map(value => value as string)
     })
@@ -59,44 +66,49 @@ export const Table: FC<ITable> = ({
         <h2>{title}</h2>
         {button}
       </Styled.Header>
-      <table>
-        <thead>
-          <tr>
-            {titles.map((title, index) => {
-              if (!isId(index)) {
-                return (
-                  <Fragment key={index}>
-                    <th>{title}</th>
-                  </Fragment>
-                )
-              }
-            })}
-            {/* Space */}
-            <th></th>
-            {/* EDIT/DELETE */}
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {columns.map((row, index) => {
-            return (
-              <tr key={index}>
-                {row.map((value, index) => {
-                  if (!isId(index)) {
-                    return <td key={index}>{value}</td>
-                  }
-                })}
-                {/* Space */}
-                <td></td>
-                {renderButtons &&
-                  renderButtons({ Button, id: row[idIndex], index })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      {hasNoItems ? (
+        <Styled.NoItems>Nenhum item encontrado</Styled.NoItems>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              {titles.map((title, index) => {
+                if (!isId(index)) {
+                  return (
+                    <Fragment key={index}>
+                      <th>{title}</th>
+                    </Fragment>
+                  )
+                }
+              })}
+              {/* Space */}
+              <th></th>
+              {/* EDIT/DELETE */}
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {columns.map((row, index) => {
+              return (
+                <tr key={index}>
+                  {row.map((value, index) => {
+                    if (!isId(index)) {
+                      return <td key={index}>{value}</td>
+                    }
+                  })}
+                  {/* Space */}
+                  <td></td>
+                  {renderButtons &&
+                    renderButtons({ Button, id: row[idIndex], index })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      )}
     </Styled.Table>
   )
 }

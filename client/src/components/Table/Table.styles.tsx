@@ -101,4 +101,9 @@ const Table = styled.div`
   }
 `
 
-export default { Table, Header }
+const NoItems = styled.div`
+  color: ${colors.primary};
+  font-size: 20px;
+`
+
+export default { Table, Header, NoItems }
