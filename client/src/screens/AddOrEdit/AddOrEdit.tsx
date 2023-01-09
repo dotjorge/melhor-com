@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
-import { api } from 'services/api'
 import { trpc } from 'trpc/client'
 
 const required = z.string().min(2, { message: 'Campo obrigatório' }).max(255)
@@ -61,18 +60,15 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
       <Styled.Form
         onSubmit={handleSubmit(data => {
-          // api.post('/phone', { body: { ...data, code: '#12212' } })
-
           console.log(data, isAddingNew)
 
           teste.mutate({
             brand: 'Brand',
-            code: '#12121d',
             color: 'BLACK',
-            date: '08/01/2023',
+            startDate: '08/01/2023',
             endDate: '08/01/2023',
             model: 'J5',
-            price: '1500'
+            price: 1500
           })
         })}
       >
