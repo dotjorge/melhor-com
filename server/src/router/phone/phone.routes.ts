@@ -1,27 +1,16 @@
-import { publicProcedure, router } from "./context";
-import { z } from "zod";
-import { prisma } from "../../lib/prisma";
-
-export const addPhoneInput = z.object({
-  model: z.string(),
-  brand: z.string(),
-  price: z.number(),
-  startDate: z.string(),
-  endDate: z.string(),
-  color: z.enum(["BLACK", "WHITE", "GOLD", "PINK"]),
-  // code: z
-  //   .string({ invalid_type_error: "Deve ser string" })
-  //   .min(6, "Minimo é 6")
-  //   .max(6, "Máximo é 6"),
-});
+import { publicProcedure, router } from "../context";
+import { prisma } from "../../../lib/prisma";
+import { addPhoneInput } from "./phone.types";
 
 // "Endpoints"
 export const phoneRoutes = router({
-  getPhones: publicProcedure.query(async ({ input }) => {
+  getPhones: publicProcedure.query(async () => {
     const phones = await prisma.phone.findMany();
     return phones;
   }),
   addPhone: publicProcedure.input(addPhoneInput).mutation(async ({ input }) => {
+    console.log("#input -> server", addPhoneInput);
+
     const addPhone = await prisma.phone.create({
       data: {
         brand: input.brand,

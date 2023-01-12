@@ -1,4 +1,4 @@
-import { phoneRoutes } from "./phone";
+import { phoneRoutes } from "./phone/phone.routes";
 import { mergeRouters, router } from "./context";
 
 export const appRouter = mergeRouters(phoneRoutes);

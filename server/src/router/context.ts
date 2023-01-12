@@ -1,6 +1,7 @@
 import { z, ZodError } from "zod";
 import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import superjson from "superjson";
 
 // Created for each request
 const createContext = ({
@@ -11,6 +12,7 @@ const createContext = ({
 type Context = inferAsyncReturnType<typeof createContext>;
 
 export const t = initTRPC.context<Context>().create({
+  transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
       ...shape,

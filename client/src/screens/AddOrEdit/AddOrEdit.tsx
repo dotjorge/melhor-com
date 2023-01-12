@@ -4,26 +4,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
-import { trpc } from 'trpc/client'
+import { addPhoneInput } from '@monorepo/zod'
+import DayJsAdapter from '@date-io/dayjs'
 
-const required = z.string().min(2, { message: 'Campo obrigatório' }).max(255)
-
-const schema = z.object({
-  model: required,
-  brand: z.string().min(1, { message: 'Campo obrigatório' }),
-  color: z.string().min(1, { message: 'Campo obrigatório' }),
-  price: z.string().min(1, { message: 'Campo obrigatório' }),
-  date: z.string().min(1, { message: 'Campo obrigatório' }),
-  endDate: z.string().min(1, { message: 'Campo obrigatório' })
-})
-
-type fields = z.infer<typeof schema>
+type fields = z.infer<typeof addPhoneInput>
 
 interface IAddOrEditPhone {
-  phone?: any
+  phone?: fields
+  onTest?: () => void
 }
 
-export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
+export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
   const isAddingNew = !phone
 
   const {
@@ -36,24 +27,11 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
       brand: phone?.brand,
       color: phone?.color,
       price: phone?.price,
-      date: phone?.date,
+      startDate: phone?.startDate,
       endDate: phone?.endDate
     },
-    resolver: zodResolver(schema)
+    resolver: zodResolver(addPhoneInput)
   })
-
-  const teste = trpc.addPhone.useMutation({
-    onError: error => console.log('#onError', error.message),
-    onMutate: data => console.log('#mutate', data)
-  })
-
-  if (teste.error?.data?.zodError) {
-    console.log('#', teste.error?.data?.zodError)
-    // zodError will be inferred
-    return (
-      <pre>Error: {JSON.stringify(teste.error.data.zodError, null, 2)}</pre>
-    )
-  }
 
   return (
     <>
@@ -61,15 +39,6 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
       <Styled.Form
         onSubmit={handleSubmit(data => {
           console.log(data, isAddingNew)
-
-          teste.mutate({
-            brand: 'Brand',
-            color: 'BLACK',
-            startDate: '08/01/2023',
-            endDate: '08/01/2023',
-            model: 'J5',
-            price: 1500
-          })
         })}
       >
         <Input
@@ -98,13 +67,14 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
           placeholder="1.400,00"
           {...register('price')}
           error={errors?.price?.message}
+          type="number"
         />
 
         <Input
           label="Inicio das vendas"
           placeholder="15/03/2020"
-          error={errors?.['date']?.message}
-          {...register('date')}
+          error={errors?.['startDate']?.message}
+          {...register('startDate')}
         />
 
         <Input
@@ -119,6 +89,7 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone }) => {
         <Styled.Buttons>
           <Link to="/" text="Voltar" />
           <Button text={isAddingNew ? 'Adicionar' : 'Salvar'} type="submit" />
+          <Button text={'Mutate'} type="button" onClick={onTest} />
         </Styled.Buttons>
       </Styled.Form>
     </>

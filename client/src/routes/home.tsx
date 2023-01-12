@@ -2,9 +2,10 @@ import { Table, Link } from 'components'
 import EditIcon from 'icons/edit-24px.svg'
 import DeleteIcon from 'icons/delete-24px.svg'
 import { trpc } from 'trpc/client'
+import { memo } from 'react'
 
-export const Home = () => {
-  const phones = trpc.getPhones.useQuery(undefined, {})
+export const HomeComponent = () => {
+  const phones = trpc.getPhones.useQuery()
 
   if (phones.isLoading) {
     return <div>Loading...</div>
@@ -14,7 +15,7 @@ export const Home = () => {
     <Table
       title="Produtos"
       button={<Link to="/adicionar" text="Adicionar" iconLeft={<>+</>} />}
-      items={phones.data?.map(item => ({
+      items={phones?.data?.map(item => ({
         id: item.code,
         Código: item.code,
         Modelo: item.model,
@@ -37,3 +38,5 @@ export const Home = () => {
     />
   )
 }
+
+export const Home = memo(HomeComponent)

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, useMemo } from 'react'
+import { ButtonHTMLAttributes, memo, useMemo } from 'react'
 import { Fragment } from 'react'
 import { FC } from 'types'
 import Styled from './Table.styles'
@@ -13,7 +13,7 @@ interface ITable {
 
 interface Item {
   id: string
-  [key: string]: string
+  [key: string]: unknown
 }
 
 // Move them later
@@ -25,20 +25,20 @@ interface RenderButton {
 
 type DefaultButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
-export const Table: FC<ITable> = ({
+export const TableComponent: FC<ITable> = ({
   title,
   button,
   items = [],
   renderButtons,
   replaceColumnTitles
 }) => {
-  const Button: RenderButton['Button'] = ({ children, ...rest }) => {
+  const Button: RenderButton['Button'] = memo(({ children, ...rest }) => {
     return (
       <td className="button-column">
         <button {...rest}>{children}</button>
       </td>
     )
-  }
+  })
 
   const hasNoItems = items.length === 0
 
@@ -112,3 +112,5 @@ export const Table: FC<ITable> = ({
     </Styled.Table>
   )
 }
+
+export const Table = memo(TableComponent)
