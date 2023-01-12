@@ -5,6 +5,10 @@
   "author": "dotjorge <jorgeluiz_dj2010@hotmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start"
+  },
   "workspaces": [
     "server",
     "client"
