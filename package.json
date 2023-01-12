@@ -7,10 +7,14 @@
   "private": true,
   "scripts": {
     "client": "yarn workspace client start",
-    "server": "yarn workspace server start"
+    "server": "yarn workspace server start",
+    "start": "concurrently \"yarn workspace client start\" \"yarn workspace server start\""
   },
   "workspaces": [
     "server",
     "client"
-  ]
+  ],
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
 }
