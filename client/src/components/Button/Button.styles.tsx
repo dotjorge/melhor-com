@@ -22,6 +22,11 @@ const ButtonAppearence = css`
   z-index: 1;
   transition: color 0.2s ease;
 
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &:before {
     content: '';
     position: absolute;

@@ -15,6 +15,7 @@ import { FC } from 'types'
 import { addPhoneInput } from '@monorepo/zod'
 import { useEffect } from 'react'
 import dayjs from 'dayjs'
+import { dayJsAdpt } from 'dates'
 
 // type fields = Omit<z.infer<typeof addPhoneInput>, 'price'> & { price: number }
 type fields = z.infer<typeof addPhoneInput>
@@ -51,11 +52,48 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
     resolver: zodResolver(addPhoneInput)
   })
 
+  // Todos os valores dos inputs
   const values = watch()
 
-  useEffect(() => {
-    console.log('#watch', dayjs(watch().startDate).format('DD/MM/YYYY'))
-  }, [values])
+  const hasNoChange = () => {
+    let disabled = true
+
+    const keys = Object.keys(values) as Array<keyof typeof values>
+
+    keys.map(key => {
+      // É uma data
+      if (key === 'startDate' || key === 'endDate') {
+        // Comparar se é a mesma com o dayJs
+        if (!dayJsAdpt.date(values?.[key])?.isSame(phone?.[key])) {
+          disabled = false
+        }
+        // Não testar a comparação abaixo, daria sempre false porque
+        // os objetos de datas mesmo sendo a mesma dão false
+        return
+      }
+
+      // Checa se a string/number do celular no banco é o mesmo do input
+      if (values?.[key] !== phone?.[key]) {
+        disabled = false
+      }
+    })
+
+    return disabled
+  }
+
+  const hasAllInputsEmpty = () => {
+    let disabled = true
+
+    const keys = Object.keys(values) as Array<keyof typeof values>
+
+    keys.map(key => {
+      if (values?.[key]) {
+        disabled = false
+      }
+    })
+
+    return disabled
+  }
 
   return (
     <Styled.Container>
@@ -118,8 +156,11 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
 
         <Styled.Buttons>
           <Link to="/" text="Voltar" />
-          <Button text={isAddingNew ? 'Adicionar' : 'Salvar'} type="submit" />
-          {/* <Button text={'Mutate'} type="button" onClick={onTest} /> */}
+          <Button
+            text={isAddingNew ? 'Adicionar' : 'Salvar'}
+            type="submit"
+            disabled={hasNoChange() || hasAllInputsEmpty()}
+          />
         </Styled.Buttons>
       </Styled.Form>
     </Styled.Container>

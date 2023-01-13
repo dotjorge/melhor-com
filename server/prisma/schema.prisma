@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Phone {
-  code      String   @id @default(uuid())
+  code      Int      @id @default(autoincrement())
   model     String
   price     Decimal
   brand     String

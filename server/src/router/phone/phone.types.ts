@@ -59,7 +59,7 @@ export const getPhoneByIdInput = z.string().optional();
 
 export const editPhoneInput = addPhoneInput.merge(
   z.object({
-    code: z.string(),
+    code: z.number(),
   })
 );
 

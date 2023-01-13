@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 export const Home = () => {
   const navigate = useNavigate()
   const phones = trpc.getPhones.useQuery()
+  const deletePhone = trpc.deletePhoneById.useMutation()
   const utils = trpc.useContext()
 
   if (phones.isLoading) {
@@ -33,7 +34,7 @@ export const Home = () => {
                 <img src={EditIcon} alt="Editar" />
               </Button>
 
-              <Button onClick={() => utils.invalidate()}>
+              <Button onClick={() => deletePhone.mutate(id)}>
                 <img src={DeleteIcon} alt="Deletar" />
               </Button>
             </>

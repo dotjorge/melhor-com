@@ -17,9 +17,16 @@ export const phoneRoutes = router({
   getPhoneById: publicProcedure
     .input(getPhoneByIdInput)
     .query(async ({ input }) => {
+      const code = input as string;
+      const codeNumber = Number(code);
+
+      if (isNaN(codeNumber)) {
+        return null;
+      }
+
       const phone = await prisma.phone.findUnique({
         where: {
-          code: input,
+          code: codeNumber,
         },
       });
 
@@ -27,8 +34,6 @@ export const phoneRoutes = router({
       return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
   addPhone: publicProcedure.input(addPhoneInput).mutation(async ({ input }) => {
-    console.log("#input -> server", addPhoneInput);
-
     const addPhone = await prisma.phone.create({
       data: {
         brand: input.brand,
@@ -60,6 +65,21 @@ export const phoneRoutes = router({
       });
 
       return editPhone;
+    }),
+  deletePhoneById: publicProcedure
+    .input(getPhoneByIdInput)
+    .mutation(async ({ input }) => {
+      const code = input as string;
+      const codeNumber = Number(code);
+
+      const phone = await prisma.phone.delete({
+        where: {
+          code: codeNumber,
+        },
+      });
+
+      // Substitui o tipo do retorno do Prisma e re-aproveita as validaçõoes Zod
+      return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
 });
 

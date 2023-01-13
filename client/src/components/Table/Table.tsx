@@ -12,7 +12,7 @@ interface ITable {
 }
 
 interface Item {
-  id: string
+  id: number
   [key: string]: unknown
 }
 
