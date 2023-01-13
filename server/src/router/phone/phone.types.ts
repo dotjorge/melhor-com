@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 export const addPhoneInput = z.object({
   model: z.string(),
@@ -12,5 +12,13 @@ export const addPhoneInput = z.object({
   //   .min(6, "Minimo é 6")
   //   .max(6, "Máximo é 6"),
 });
+
+export const editPhoneInput = z.string().optional();
+
+export const editPhoneOutput = addPhoneInput.merge(
+  z.object({
+    code: z.string(),
+  })
+);
 
 export default addPhoneInput;

@@ -5,12 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
 import { addPhoneInput } from '@monorepo/zod'
-import DayJsAdapter from '@date-io/dayjs'
 
+// type fields = Omit<z.infer<typeof addPhoneInput>, 'price'> & { price: number }
 type fields = z.infer<typeof addPhoneInput>
 
 interface IAddOrEditPhone {
-  phone?: fields
+  phone?: fields | null | undefined
   onTest?: () => void
 }
 
@@ -65,9 +65,12 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
         <Input
           label="Preço"
           placeholder="1.400,00"
-          {...register('price')}
           error={errors?.price?.message}
           type="number"
+          {...(register('price'),
+          {
+            valueAsNumber: true
+          })}
         />
 
         <Input

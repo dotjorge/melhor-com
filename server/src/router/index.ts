@@ -1,5 +1,6 @@
 import { phoneRoutes } from "./phone/phone.routes";
 import { mergeRouters, router } from "./context";
+import { inferRouterOutputs, inferRouterInputs } from "@trpc/server";
 
 export const appRouter = mergeRouters(phoneRoutes);
 // export const appRouter = t.router({
@@ -15,3 +16,6 @@ export const appRouter = mergeRouters(phoneRoutes);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+
+export type RouterOutput = inferRouterOutputs<AppRouter>;
+export type RouterInput = inferRouterInputs<AppRouter>;
