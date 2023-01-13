@@ -42,10 +42,17 @@ export const TableComponent: FC<ITable> = ({
 
   const hasNoItems = items.length === 0
 
-  const titles = useMemo(() => {
+  // const titles = useMemo(() => {
+  //   if (hasNoItems) return []
+  //   return Object.keys(items[0]).map(key => key)
+  // }, [items])
+
+  const getTitles = () => {
     if (hasNoItems) return []
     return Object.keys(items[0]).map(key => key)
-  }, [items])
+  }
+
+  const titles = getTitles()
 
   const idIndex = titles.findIndex(title => title === 'id')
 
@@ -53,12 +60,21 @@ export const TableComponent: FC<ITable> = ({
     return idIndex === index
   }
 
-  const columns = useMemo(() => {
+  // const columns = useMemo(() => {
+  //   if (hasNoItems) return []
+  //   return items.map(item => {
+  //     return Object.values(item).map(value => value as string)
+  //   })
+  // }, [items])
+
+  const getColumns = () => {
     if (hasNoItems) return []
     return items.map(item => {
       return Object.values(item).map(value => value as string)
     })
-  }, [items])
+  }
+
+  const columns = getColumns()
 
   return (
     <Styled.Table>

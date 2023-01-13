@@ -1,0 +1,1 @@
+export { dayJsAdpt } from './dayjs'

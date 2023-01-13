@@ -1,4 +1,12 @@
-import { Button, DatePicker, Input, Link, MaterialInput } from 'components'
+import {
+  Button,
+  DatePicker,
+  Input,
+  Link,
+  MaterialInput,
+  Select,
+  TextField
+} from 'components'
 import Styled from './AddOrEdit.styles'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,7 +21,7 @@ type fields = z.infer<typeof addPhoneInput>
 
 interface IAddOrEditPhone {
   phone?: fields | null | undefined
-  onSubmit: (data?: fields) => void
+  onSubmit: (data: fields) => void
   onTest?: () => void
 }
 
@@ -36,8 +44,9 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
       brand: phone?.brand,
       color: phone?.color,
       price: phone?.price,
-      startDate: phone?.startDate,
-      endDate: phone?.endDate
+      // Começa com uma data vazia se não houver data
+      startDate: phone?.startDate || '',
+      endDate: phone?.endDate || ''
     },
     resolver: zodResolver(addPhoneInput)
   })
@@ -49,7 +58,7 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
   }, [values])
 
   return (
-    <>
+    <Styled.Container>
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
 
       <Styled.Form
@@ -57,33 +66,36 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
           onSubmit(data)
         })}
       >
-        <Input
+        <TextField
+          name="model"
           label="Modelo"
           placeholder="XT2041-1"
+          control={control}
           error={errors}
-          {...register('model')}
         />
 
-        <Input
+        <TextField
+          name="brand"
           label="Marca"
           placeholder="Motorola"
-          {...register('brand')}
+          control={control}
           error={errors}
         />
 
-        <Input
+        <Select
+          control={control}
+          name="color"
           label="Cor"
           placeholder="Preto"
-          {...register('color')}
           error={errors}
         />
 
-        <MaterialInput
-          control={control}
+        <TextField
+          name="price"
           label="Preço"
-          placeholder="1.400,00"
-          type="number"
-          {...register('price')}
+          placeholder="R$ 1.500"
+          control={control}
+          error={errors}
         />
 
         <DatePicker
@@ -107,12 +119,9 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
         <Styled.Buttons>
           <Link to="/" text="Voltar" />
           <Button text={isAddingNew ? 'Adicionar' : 'Salvar'} type="submit" />
-          <Button text={'Mutate'} type="button" onClick={onTest} />
+          {/* <Button text={'Mutate'} type="button" onClick={onTest} /> */}
         </Styled.Buttons>
       </Styled.Form>
-
-      <div>{JSON.stringify(phone)}</div>
-      <div>{JSON.stringify(watch())}</div>
-    </>
+    </Styled.Container>
   )
 }

@@ -2,6 +2,7 @@ import { colors as themeColors } from './colors'
 import { radius as themeRadiuses } from './radius'
 import { getThemeColors } from './utils/getColors'
 import { getThemeRadiuses } from './utils/getRadiuses'
+export { colors as staticColors } from './colors'
 
 // Forwarded to styled-components ThemeProvider
 export const theme = {
@@ -13,3 +14,5 @@ export const theme = {
 export const colors = getThemeColors()
 // ${props=>props.theme.radius.5} => ${radius.5}
 export const radius = getThemeRadiuses()
+
+export const staticRadius = themeRadiuses

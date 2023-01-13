@@ -6,7 +6,7 @@ import Styled from '../Input/Input.styles'
 
 interface IInput {
   name: string
-  label?: string
+  label: string
   error?: string
   control: any
 }
@@ -27,10 +27,11 @@ export const MaterialInput: FC<IInput & DefaultInputProps> = props => {
         <div>
           <Styled.Label>{label}</Styled.Label>
           <Input
-            {...field}
-            // onChange={event => field.onChange(`R$ ${event.target.value}`)}
-            // value={`R$ ${field.value}`}
+            label={label}
             min={0}
+            {...field}
+            // onChange={event => field.onChange(event.target.value)}
+            // value={field.value}
           />
           <Styled.Error>{error && error}</Styled.Error>
         </div>

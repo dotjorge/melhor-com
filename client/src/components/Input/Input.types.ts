@@ -4,7 +4,7 @@ import { InputHTMLAttributes, RefObject } from 'react'
 export type IInput = FC<IInputProps & DefaultInputProps>
 
 export interface IInputProps {
-  label?: string
+  label: string
   error?: { [key: string]: any }
 }
 

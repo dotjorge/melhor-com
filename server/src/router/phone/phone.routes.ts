@@ -1,6 +1,10 @@
 import { publicProcedure, router } from "../context";
 import { prisma } from "../../../lib/prisma";
-import { addPhoneInput, editPhoneInput, editPhoneOutput } from "./phone.types";
+import {
+  addPhoneInput,
+  getPhoneByIdInput,
+  editPhoneInput,
+} from "./phone.types";
 import * as z from "zod";
 
 // "Endpoints"
@@ -11,7 +15,7 @@ export const phoneRoutes = router({
     return phones;
   }),
   getPhoneById: publicProcedure
-    .input(editPhoneInput)
+    .input(getPhoneByIdInput)
     .query(async ({ input }) => {
       const phone = await prisma.phone.findUnique({
         where: {
@@ -20,7 +24,7 @@ export const phoneRoutes = router({
       });
 
       // Substitui o tipo do retorno do Prisma e re-aproveita as validaçõoes Zod
-      return phone as unknown as z.infer<typeof editPhoneOutput>;
+      return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
   addPhone: publicProcedure.input(addPhoneInput).mutation(async ({ input }) => {
     console.log("#input -> server", addPhoneInput);
@@ -38,6 +42,25 @@ export const phoneRoutes = router({
 
     return addPhone;
   }),
+  editPhoneById: publicProcedure
+    .input(editPhoneInput)
+    .mutation(async ({ input }) => {
+      const editPhone = await prisma.phone.update({
+        where: {
+          code: input.code,
+        },
+        data: {
+          brand: input.brand,
+          color: input.color,
+          endDate: input.endDate,
+          model: input.model,
+          price: input.price,
+          startDate: input.startDate,
+        },
+      });
+
+      return editPhone;
+    }),
 });
 
 const PHONES = [

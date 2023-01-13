@@ -1,41 +1,38 @@
 import { AddOrEditPhone } from 'screens'
 import { trpc } from 'trpc/client'
-import { addPhoneInput } from '@monorepo/zod'
-import DayJsAdapter from '@date-io/dayjs'
-import * as z from 'zod'
-
-const dayJs = new DayJsAdapter()
-
-type fields = z.infer<typeof addPhoneInput>
+import { useNavigate } from 'react-router-dom'
+import { dayJsAdpt } from 'dates'
 
 export const AddPhone = () => {
+  const navigate = useNavigate()
+  const utils = trpc.useContext()
+
   const addPhone = trpc.addPhone.useMutation({
     onError: error => console.log('#onError', error.message),
-    onMutate: data => console.log('#mutate', data)
+    onMutate: () => {
+      utils.invalidate()
+      navigate(`/`)
+    }
   })
 
+  // Erro Zod Backend, provavelmente não vai cair aqui por os campos possuem a mesma validação!
   if (addPhone.error?.data?.zodError) {
-    console.log('#', addPhone.error?.data?.zodError)
+    console.log('#zodError', addPhone.error?.data?.zodError)
   }
 
   return (
     <AddOrEditPhone
       onSubmit={data => {
-        console.log('#adicionar', data)
-      }}
-      onTest={() => {
-        const input = {
-          brand: 'Brand',
-          color: 'BLACK',
-          startDate: dayJs.date('08/01/2023').toISOString(),
-          endDate: dayJs.date('08/01/2023').toDate(),
-          model: 'J5',
-          price: '1500'
-        } satisfies fields
+        const newPhoneInput = {
+          brand: data.brand,
+          color: data.color,
+          startDate: dayJsAdpt.date(data.startDate).toISOString(),
+          endDate: dayJsAdpt.date(data.endDate).toDate(),
+          model: data.model,
+          price: data.price
+        } satisfies typeof data
 
-        console.log('#input', input)
-
-        addPhone.mutate(input)
+        addPhone.mutate(newPhoneInput)
       }}
     />
   )
