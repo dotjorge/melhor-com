@@ -1,33 +1,40 @@
-import { InputHTMLAttributes, forwardRef, RefObject } from 'react'
+import { InputHTMLAttributes } from 'react'
 import { FC } from 'types'
-import { useForm, Controller } from 'react-hook-form'
-import { Input } from '@mui/material'
+import { Controller } from 'react-hook-form'
+import { Input } from '../Input/Input'
+import Styled from '../Input/Input.styles'
 
 interface IInput {
   name: string
   label?: string
   error?: string
-  control?: any
+  control: any
 }
 
 type DefaultInputProps = InputHTMLAttributes<HTMLInputElement>
 
-type Ref =
-  | RefObject<HTMLInputElement>
-  | ((instance: HTMLInputElement | null) => void)
-  | null
-  | undefined
+export const MaterialInput: FC<IInput & DefaultInputProps> = props => {
+  const { name, label, error, control, ...rest } = props
 
-export const MaterialInput: FC<IInput & DefaultInputProps> = forwardRef(
-  (props, ref: Ref) => {
-    const { name, label, error, control, ...rest } = props
+  const format = (val: string) => `R$ ` + val
+  const parse = (val: string) => val.replace(/^\$/, '')
 
-    return (
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => <Input {...field} />}
-      />
-    )
-  }
-)
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <div>
+          <Styled.Label>{label}</Styled.Label>
+          <Input
+            {...field}
+            // onChange={event => field.onChange(`R$ ${event.target.value}`)}
+            // value={`R$ ${field.value}`}
+            min={0}
+          />
+          <Styled.Error>{error && error}</Styled.Error>
+        </div>
+      )}
+    />
+  )
+}

@@ -1,25 +1,34 @@
-import { Button, Input, Link, MaterialInput } from 'components'
+import { Button, DatePicker, Input, Link, MaterialInput } from 'components'
 import Styled from './AddOrEdit.styles'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
 import { addPhoneInput } from '@monorepo/zod'
+import { useEffect } from 'react'
+import dayjs from 'dayjs'
 
 // type fields = Omit<z.infer<typeof addPhoneInput>, 'price'> & { price: number }
 type fields = z.infer<typeof addPhoneInput>
 
 interface IAddOrEditPhone {
   phone?: fields | null | undefined
+  onSubmit: (data?: fields) => void
   onTest?: () => void
 }
 
-export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
+export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
+  phone,
+  onSubmit,
+  onTest
+}) => {
   const isAddingNew = !phone
 
   const {
+    control,
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm<fields>({
     defaultValues: {
@@ -33,18 +42,25 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
     resolver: zodResolver(addPhoneInput)
   })
 
+  const values = watch()
+
+  useEffect(() => {
+    console.log('#watch', dayjs(watch().startDate).format('DD/MM/YYYY'))
+  }, [values])
+
   return (
     <>
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
+
       <Styled.Form
         onSubmit={handleSubmit(data => {
-          console.log(data, isAddingNew)
+          onSubmit(data)
         })}
       >
         <Input
           label="Modelo"
           placeholder="XT2041-1"
-          error={errors?.model?.message}
+          error={errors}
           {...register('model')}
         />
 
@@ -52,40 +68,38 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
           label="Marca"
           placeholder="Motorola"
           {...register('brand')}
-          error={errors?.brand?.message}
+          error={errors}
         />
 
         <Input
           label="Cor"
           placeholder="Preto"
           {...register('color')}
-          error={errors?.color?.message}
+          error={errors}
         />
 
         <MaterialInput
-          name="preco"
+          control={control}
           label="Preço"
           placeholder="1.400,00"
-          error={errors?.price?.message}
           type="number"
-          {...(register('price'),
-          {
-            valueAsNumber: true
-          })}
+          {...register('price')}
         />
 
-        <Input
-          label="Inicio das vendas"
-          placeholder="15/03/2020"
-          error={errors?.['startDate']?.message}
-          {...register('startDate')}
-        />
-
-        <Input
+        <DatePicker
+          name="startDate"
+          control={control}
           label="Fim das vendas"
           placeholder="14/06/2020"
-          error={errors?.['endDate']?.message}
-          {...register('endDate')}
+          error={errors}
+        />
+
+        <DatePicker
+          name="endDate"
+          control={control}
+          label="Fim das vendas"
+          placeholder="14/06/2020"
+          error={errors}
         />
 
         <div></div>
@@ -96,6 +110,9 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
           <Button text={'Mutate'} type="button" onClick={onTest} />
         </Styled.Buttons>
       </Styled.Form>
+
+      <div>{JSON.stringify(phone)}</div>
+      <div>{JSON.stringify(watch())}</div>
     </>
   )
 }

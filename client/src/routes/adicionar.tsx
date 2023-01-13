@@ -20,14 +20,17 @@ export const AddPhone = () => {
 
   return (
     <AddOrEditPhone
+      onSubmit={data => {
+        console.log('#adicionar', data)
+      }}
       onTest={() => {
         const input = {
           brand: 'Brand',
           color: 'BLACK',
-          startDate: dayJs.date('08/01/2023').toDate(),
+          startDate: dayJs.date('08/01/2023').toISOString(),
           endDate: dayJs.date('08/01/2023').toDate(),
           model: 'J5',
-          price: 1500
+          price: '1500'
         } satisfies fields
 
         console.log('#input', input)

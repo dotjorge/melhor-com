@@ -11,5 +11,10 @@ export const EditPhone = () => {
     return <div>Loading...</div>
   }
 
-  return <AddOrEditPhone phone={phones.data} />
+  return (
+    <AddOrEditPhone
+      phone={phones.data}
+      onSubmit={data => console.log('#editar', data)}
+    />
+  )
 }

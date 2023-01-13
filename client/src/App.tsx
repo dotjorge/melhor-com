@@ -9,6 +9,9 @@ import { httpBatchLink } from '@trpc/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { trpc } from 'trpc/client'
 import superjson from 'superjson'
+import { ChakraProvider } from '@chakra-ui/react'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const router = createBrowserRouter([
   {
@@ -39,17 +42,21 @@ function App() {
   )
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <CustomThemeProvider>
-          <Header />
-          <main>
-            <RouterProvider router={router} />
-          </main>
-          <Footer />
-        </CustomThemeProvider>
-      </QueryClientProvider>
-    </trpc.Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ChakraProvider>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <CustomThemeProvider>
+              <Header />
+              <main>
+                <RouterProvider router={router} />
+              </main>
+              <Footer />
+            </CustomThemeProvider>
+          </QueryClientProvider>
+        </trpc.Provider>
+      </ChakraProvider>
+    </LocalizationProvider>
   )
 }
 
