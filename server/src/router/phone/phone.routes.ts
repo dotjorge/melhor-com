@@ -67,7 +67,7 @@ export const phoneRoutes = router({
       return editPhone;
     }),
   deletePhoneById: publicProcedure
-    .input(getPhoneByIdInput)
+    .input(z.string())
     .mutation(async ({ input }) => {
       const code = input as string;
       const codeNumber = Number(code);

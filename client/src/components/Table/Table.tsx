@@ -118,7 +118,12 @@ export const TableComponent: FC<ITable> = ({
                   {/* Space */}
                   <td></td>
                   {renderButtons &&
-                    renderButtons({ Button, id: row[idIndex], index })}
+                    renderButtons({
+                      Button,
+                      // Transforma o id: number do Prisma em string
+                      id: row[idIndex].toString(),
+                      index
+                    })}
                 </tr>
               )
             })}
