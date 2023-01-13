@@ -1,4 +1,4 @@
-import { Button, Input, Link } from 'components'
+import { Button, Input, Link, MaterialInput } from 'components'
 import Styled from './AddOrEdit.styles'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -62,7 +62,8 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({ phone, onTest }) => {
           error={errors?.color?.message}
         />
 
-        <Input
+        <MaterialInput
+          name="preco"
           label="Preço"
           placeholder="1.400,00"
           error={errors?.price?.message}

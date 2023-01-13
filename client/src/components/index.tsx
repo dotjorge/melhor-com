@@ -1,6 +1,7 @@
 export { Button } from './Button/Button'
 export { Link } from './Link/Link'
 export { Input } from './Input/Input'
+export { MaterialInput } from './MaterialInput/MaterialInput'
 export { Table } from './Table/Table'
 export { Header } from './Header/Header'
 export { Footer } from './Footer/Footer'
