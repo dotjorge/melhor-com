@@ -9,7 +9,7 @@ const ButtonAppearence = css`
   letter-spacing: 0;
   text-transform: uppercase;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   color: ${colors.black};
   padding: 6px 15px;
   display: flex;
@@ -21,6 +21,13 @@ const ButtonAppearence = css`
   cursor: pointer;
   z-index: 1;
   transition: color 0.2s ease;
+
+  // Icon
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &:disabled {
     opacity: 0.5;
@@ -51,6 +58,10 @@ const ButtonAppearence = css`
     &:before {
       transform: scale(1.1);
       background: ${colors.black};
+    }
+
+    svg {
+      filter: invert(1);
     }
   }
 

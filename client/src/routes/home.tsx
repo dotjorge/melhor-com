@@ -1,5 +1,6 @@
 import { Table, Link } from 'components'
 import EditIcon from 'icons/edit-24px.svg'
+import { ReactComponent as CellphoneIcon } from 'icons/cellphone.svg'
 import DeleteIcon from 'icons/delete-24px.svg'
 import { trpc } from 'trpc/client'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +20,18 @@ export const Home = () => {
     <>
       <Table
         title="Produtos"
-        button={<Link to="/adicionar" text="Adicionar" iconLeft={<>+</>} />}
+        button={
+          <Link
+            to="/adicionar"
+            text="Adicionar"
+            iconLeft={
+              <>
+                <b>+</b>
+                <CellphoneIcon />
+              </>
+            }
+          />
+        }
         items={phones?.data?.map(item => ({
           id: item.code,
           Código: item.code,
