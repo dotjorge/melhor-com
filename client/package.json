@@ -30,6 +30,8 @@
     "dayjs": "^1.11.7",
     "framer-motion": "^8.4.2",
     "react": "^18.2.0",
+    "react-currency-format": "^1.1.0",
+    "react-currency-input-field": "^3.6.9",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.41.5",
     "react-query": "3",
@@ -69,6 +71,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-currency-format": "^1.0.0",
     "@types/styled-components": "^5.1.26"
   }
 }
