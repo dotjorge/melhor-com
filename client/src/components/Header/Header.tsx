@@ -5,6 +5,7 @@ export const Header: FC = props => {
   return (
     <Styled.Header>
       <h1>M</h1>
+      <Styled.Icon />
     </Styled.Header>
   )
 }
