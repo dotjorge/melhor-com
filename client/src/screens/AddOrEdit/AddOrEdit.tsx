@@ -190,9 +190,6 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
           </Styled.Buttons>
         </Styled.Form>
       </FormProvider>
-      <div>{JSON.stringify(values)}</div>
-      <div>{JSON.stringify(phone)}</div>
-      <div>{JSON.stringify(errors)}</div>
     </Styled.Container>
   )
 }
