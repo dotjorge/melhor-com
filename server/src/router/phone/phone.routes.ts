@@ -1,10 +1,6 @@
 import { publicProcedure, router } from "../context";
 import { prisma } from "../../../lib/prisma";
-import {
-  addPhoneInput,
-  getPhoneByIdInput,
-  editPhoneInput,
-} from "./phone.types";
+import { addPhoneInput, getPhoneByIdInput, editPhoneInput } from "./phone.zod";
 import * as z from "zod";
 
 // "Endpoints"
@@ -34,13 +30,15 @@ export const phoneRoutes = router({
       return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
   addPhone: publicProcedure.input(addPhoneInput).mutation(async ({ input }) => {
+    const priceNumber = Number(input.price.replace(/[^0-9.-]+/g, ""));
+
     const addPhone = await prisma.phone.create({
       data: {
         brand: input.brand,
         color: input.color,
         endDate: input.endDate,
         model: input.model,
-        price: input.price,
+        price: priceNumber,
         startDate: input.startDate,
       },
     });
@@ -50,6 +48,8 @@ export const phoneRoutes = router({
   editPhoneById: publicProcedure
     .input(editPhoneInput)
     .mutation(async ({ input }) => {
+      const priceNumber = Number(input.price.replace(/[^0-9.-]+/g, ""));
+
       const editPhone = await prisma.phone.update({
         where: {
           code: input.code,
@@ -59,7 +59,7 @@ export const phoneRoutes = router({
           color: input.color,
           endDate: input.endDate,
           model: input.model,
-          price: input.price,
+          price: priceNumber,
           startDate: input.startDate,
         },
       });

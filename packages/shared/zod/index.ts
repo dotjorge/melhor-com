@@ -1,1 +1,1 @@
-export { addPhoneInput } from "../../../server/src/router/phone/phone.types";
+export { addPhoneInput } from "../../../server/src/router/phone/phone.zod";

@@ -3,12 +3,13 @@ import EditIcon from 'icons/edit-24px.svg'
 import DeleteIcon from 'icons/delete-24px.svg'
 import { trpc } from 'trpc/client'
 import { useNavigate } from 'react-router-dom'
+import format from 'utils/format'
 
 export const Home = () => {
   const navigate = useNavigate()
   const phones = trpc.getPhones.useQuery()
   const deletePhone = trpc.deletePhoneById.useMutation()
-  const utils = trpc.useContext()
+  // const utils = trpc.useContext()
 
   if (phones.isLoading) {
     return <div></div>
@@ -23,7 +24,7 @@ export const Home = () => {
           id: item.code,
           Código: item.code,
           Modelo: item.model,
-          Preço: item.price,
+          Preço: format.toCurrency(Number(item.price)),
           Marca: item.brand,
           Cor: item.color
         }))}

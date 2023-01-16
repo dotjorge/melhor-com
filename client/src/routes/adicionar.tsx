@@ -9,7 +9,8 @@ export const AddPhone = () => {
 
   const addPhone = trpc.addPhone.useMutation({
     onError: error => console.log('#onError', error.message),
-    onMutate: () => {
+    onSuccess: () => {
+      console.log('#onSuccess')
       utils.invalidate()
       navigate(`/`)
     }
@@ -22,11 +23,12 @@ export const AddPhone = () => {
 
   return (
     <AddOrEditPhone
+      isLoading={addPhone.isLoading}
       onSubmit={data => {
         const newPhoneInput = {
           brand: data.brand,
           color: data.color,
-          startDate: dayJsAdpt.date(data.startDate).toISOString(),
+          startDate: dayJsAdpt.date(data.startDate).toDate(),
           endDate: dayJsAdpt.date(data.endDate).toDate(),
           model: data.model,
           price: data.price

@@ -28,6 +28,7 @@ export const EditPhone = () => {
 
   return (
     <AddOrEditPhone
+      isLoading={currentPhone.isLoading || editPhone.isLoading}
       phone={currentPhone.data}
       onSubmit={data => {
         editPhone.mutate({

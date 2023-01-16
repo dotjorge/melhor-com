@@ -5,10 +5,11 @@ import {
   Link,
   MaterialInput,
   Select,
-  TextField
+  TextField,
+  CurrencyInput
 } from 'components'
 import Styled from './AddOrEdit.styles'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FC } from 'types'
@@ -24,22 +25,18 @@ interface IAddOrEditPhone {
   phone?: fields | null | undefined
   onSubmit: (data: fields) => void
   onTest?: () => void
+  isLoading?: boolean
 }
 
 export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
   phone,
   onSubmit,
-  onTest
+  onTest,
+  isLoading
 }) => {
   const isAddingNew = !phone
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = useForm<fields>({
+  const formMethods = useForm<fields>({
     defaultValues: {
       model: phone?.model,
       brand: phone?.brand,
@@ -52,15 +49,40 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
     resolver: zodResolver(addPhoneInput)
   })
 
+  const {
+    control,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = formMethods
+
   // Todos os valores dos inputs
   const values = watch()
 
   const hasNoChange = () => {
     let disabled = true
+    let debug = {}
 
     const keys = Object.keys(values) as Array<keyof typeof values>
 
     keys.map(key => {
+      debug = { ...debug, [key]: [phone?.[key], values?.[key]] }
+
+      if (key === 'price') {
+        const priceStringToNumber = (priceString: string | undefined) =>
+          Number(priceString?.replace(/[^0-9.-]+/g, ''))
+
+        const inputPriceNumber = priceStringToNumber(values?.price)
+        const currentPriceNumber = priceStringToNumber(phone?.price)
+
+        if (inputPriceNumber !== currentPriceNumber) {
+          disabled = false
+        }
+
+        return
+      }
+
       // É uma data
       if (key === 'startDate' || key === 'endDate') {
         // Comparar se é a mesma com o dayJs
@@ -77,6 +99,8 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
         disabled = false
       }
     })
+
+    // console.log('#hasNoChanges', debug)
 
     return disabled
   }
@@ -98,71 +122,77 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
   return (
     <Styled.Container>
       <h2>{isAddingNew ? 'Adicionar' : 'Editar'} produto</h2>
+      <FormProvider {...formMethods}>
+        <Styled.Form
+          onSubmit={handleSubmit(data => {
+            onSubmit(data)
+          })}
+        >
+          <TextField
+            name="model"
+            label="Modelo"
+            placeholder="XT2041-1"
+            control={control}
+            error={errors}
+          />
 
-      <Styled.Form
-        onSubmit={handleSubmit(data => {
-          onSubmit(data)
-        })}
-      >
-        <TextField
-          name="model"
-          label="Modelo"
-          placeholder="XT2041-1"
-          control={control}
-          error={errors}
-        />
+          <TextField
+            name="brand"
+            label="Marca"
+            placeholder="Motorola"
+            control={control}
+            error={errors}
+          />
 
-        <TextField
-          name="brand"
-          label="Marca"
-          placeholder="Motorola"
-          control={control}
-          error={errors}
-        />
+          <Select
+            control={control}
+            name="color"
+            label="Cor"
+            placeholder="Preto"
+            error={errors}
+          />
 
-        <Select
-          control={control}
-          name="color"
-          label="Cor"
-          placeholder="Preto"
-          error={errors}
-        />
+          <CurrencyInput label="Preço" name="price" control={control} />
 
-        <TextField
+          {/*<TextField
           name="price"
           label="Preço"
           placeholder="R$ 1.500"
           control={control}
           error={errors}
-        />
+        /> */}
 
-        <DatePicker
-          name="startDate"
-          control={control}
-          label="Fim das vendas"
-          placeholder="14/06/2020"
-          error={errors}
-        />
-
-        <DatePicker
-          name="endDate"
-          control={control}
-          label="Fim das vendas"
-          placeholder="14/06/2020"
-          error={errors}
-        />
-
-        <div></div>
-
-        <Styled.Buttons>
-          <Link to="/" text="Voltar" />
-          <Button
-            text={isAddingNew ? 'Adicionar' : 'Salvar'}
-            type="submit"
-            disabled={hasNoChange() || hasAllInputsEmpty()}
+          <DatePicker
+            name="startDate"
+            control={control}
+            label="Fim das vendas"
+            placeholder="14/06/2020"
+            error={errors}
           />
-        </Styled.Buttons>
-      </Styled.Form>
+
+          <DatePicker
+            name="endDate"
+            control={control}
+            label="Fim das vendas"
+            placeholder="14/06/2020"
+            error={errors}
+          />
+
+          <div></div>
+
+          <Styled.Buttons>
+            <Link to="/" text="Voltar" />
+            <Button
+              text={isAddingNew ? 'Adicionar' : 'Salvar'}
+              type="submit"
+              disabled={hasNoChange() || hasAllInputsEmpty() || isLoading}
+            />
+          </Styled.Buttons>
+        </Styled.Form>
+      </FormProvider>
+      <div>{JSON.stringify(values)}</div>
+      <div>{JSON.stringify(phone)}</div>
+      <div>{JSON.stringify(errors)}</div>
     </Styled.Container>
   )
 }

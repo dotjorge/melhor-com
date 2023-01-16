@@ -1,14 +1,20 @@
 import * as z from "zod";
 import dayjs from "dayjs";
 
+dayjs.locale("pt-br");
+
 // Commons
-
 const requiredMessage = { message: "Campo obrigatório" };
+const minimunDate = "25/12/2018";
 
-const phoneDate = z.any().refine((date) => {
-  return dayjs(date).isValid();
-  // return date < new Date(Date.now());
-}, "Data inválida");
+const phoneDate = z
+  .any()
+  .refine((date) => {
+    return dayjs(date).isValid();
+  }, "Data inválida")
+  .refine((date) => {
+    return dayjs(date).isAfter(dayjs("12-25-2018"));
+  }, `Data inferior à ${minimunDate}`);
 
 const textMin1Max255 = z
   .string({
@@ -32,9 +38,13 @@ export const addPhoneInput = z.object({
     .string({
       required_error: requiredMessage.message,
     })
+    // .transform((priceString) => priceStringToNumber(priceString))
     .refine(
-      (val) => {
-        return !Number.isNaN(parseInt(val, 10)) && Number(val) > 0;
+      (priceString) => {
+        const priceNumber = Number(priceString.replace(/[^0-9.-]+/g, ""));
+        console.log("#price", priceNumber);
+
+        return !Number.isNaN(priceNumber) && priceNumber > 0;
       },
       {
         message: "Apenas números positivos",
