@@ -73,12 +73,6 @@ export default { Componente, Child }
 
 As rotas API foram feitas no back-end em Node com o tRPC, em uma pasta `server/src/router/routeName/routeName.routes.ts`. E cada "endpoint" conta com uma validação `zod`, em um arquivo na mesma pasta chamado `routeName.zod.ts`, que tipa o consumo dele no front e disponibiliza vários utilitarios de infer e manipulação de tipos.
 
-Depois todas são "juntadas" no `index.js` da pasta router:
-
-```TS
-export const appRouter = mergeRouters(phoneRoutes);
-```
-
 E o ORM utilizado foi o Prisma com `sq-lite`, apenas pela praticidade.
 
 Todas as rotas tRPC são expostas em um endpoint REST já com as validações, mas a maneira correta de as consumir no front é através do tRPC, pra que os parametros e o retorno do endpoint estejam todos tipados e o fetch seja feito através do React Query:
@@ -99,7 +93,31 @@ const phones = trpc.getPhones.useQuery()
         price: string (no front é string, no banco é Decimal)
     }
  */
+```
 
+Rota getPhones:
+
+```TS
+export const phoneRoutes = router({
+  getPhones: publicProcedure.query(async () => {
+    const phones = await prisma.phone.findMany();
+
+    // "color" no Prisma está como string, o enum está no zod,
+    // então aqui ele omite o type do Prisma e adiciona o enum do zod
+    type phone = Omit<typeof phones[number], "color"> & {
+      color: z.infer<typeof addPhoneInput>["color"];
+    };
+
+    return phones as phone[];
+  }),
+  //...
+})
+```
+
+Se houvessem mais rotas, todas seriam "juntadas" no `index.js` da pasta router:
+
+```TS
+export const appRouter = mergeRouters(phoneRoutes);
 ```
 
 Resposta ao bater em http://localhost:4000/trpc/getPhones:
