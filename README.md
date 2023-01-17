@@ -279,7 +279,9 @@ O projeto precisa apenas de um comando pra ser rodado, que é:
 yarn start
 ```
 
-### Depois disso já estará rodando tanto o repositório front-end quanto back-end:
+> Depois disso já estará rodando tanto o repositório front-end quanto back-end:
+
+### Rodar projetos individualmente
 
 #### Front-end:
 
@@ -301,4 +303,4 @@ Rodar apenas o back-end:
 yarn workspace server start
 ```
 
-### Os projetos são rodados nas mesmas rotas anteriormente citadas
+> Os projetos são rodados nas mesmas rotas anteriormente citadas
