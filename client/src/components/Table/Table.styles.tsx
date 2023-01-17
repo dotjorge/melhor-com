@@ -21,7 +21,7 @@ const Header = styled.div`
 const Table = styled.div`
   width: 100%;
   max-width: 864px;
-  margin: 50px auto;
+  margin: 10px auto;
 
   .table-container {
     padding: 10px;
