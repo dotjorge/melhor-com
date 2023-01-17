@@ -19,6 +19,7 @@ const Form = styled.form`
 
   @media screen and (max-width: 900px) {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 `
 
