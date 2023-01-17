@@ -70,7 +70,7 @@ export default { Componente, Child }
 
 ## 📱 Responsividade
 
-A responsividade foi feita usando `@media` de maneira simples porém bastante funcional, usando um iPhone SE (2016).
+A responsividade foi feita usando `@media` de maneira simples porém bastante funcional, usando um iPhone SE (2016) como referência de tamanho.
 
 ## 🔙 Rotas API
 
