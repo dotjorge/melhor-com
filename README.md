@@ -88,9 +88,7 @@ const phones = trpc.getPhones.useQuery()
 
 /*
     React Query:
-
     phones = { data, isLoading, isError, ... }
-
     data = {
         code: number,
         brand: string,
@@ -191,12 +189,10 @@ No back-end:
 export const addPhoneInput = z.object({
   model: textMin1Max255,
   brand: textMin1Max255,
-  // price: z.number(),
   price: z
     .string({
       required_error: requiredMessage.message,
     })
-    // .transform((priceString) => priceStringToNumber(priceString))
     .refine(
       (priceString) => {
         const priceNumber = Number(priceString.replace(/[^0-9.-]+/g, ""));
@@ -210,16 +206,10 @@ export const addPhoneInput = z.object({
   startDate: phoneDate,
   endDate: phoneDate,
   color: z.enum(["BLACK", "WHITE", "GOLD", "PINK"], {
-    // required_error: requiredMessage.message,
-    // invalid_type_error: "Cor inválida",
     errorMap: (issue, ctx) => {
       return { message: "Cor inválida" };
     },
   }),
-  // code: z
-  //   .string({ invalid_type_error: "Deve ser string" })
-  //   .min(6, "Minimo é 6")
-  //   .max(6, "Máximo é 6"),
 });
 ```
 
