@@ -1,11 +1,11 @@
-import { publicProcedure, router } from "../context";
+import { publicProcedure, cpfProcedure, router } from "../context";
 import { prisma } from "../../../lib/prisma";
 import { addPhoneInput, getPhoneByIdInput, editPhoneInput } from "./phone.zod";
 import * as z from "zod";
 
 // "Endpoints"
 export const phoneRoutes = router({
-  getPhones: publicProcedure.query(async () => {
+  getPhones: cpfProcedure.query(async ({ ctx }) => {
     const phones = await prisma.phone.findMany();
 
     // "color" no Prisma está como string, o enum está no zod,
@@ -16,7 +16,7 @@ export const phoneRoutes = router({
 
     return phones as phone[];
   }),
-  getPhoneById: publicProcedure
+  getPhoneById: cpfProcedure
     .input(getPhoneByIdInput)
     .query(async ({ input }) => {
       const code = input as string;
@@ -35,7 +35,7 @@ export const phoneRoutes = router({
       // Substitui o tipo do retorno do Prisma e re-aproveita as validaçõoes Zod
       return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
-  addPhone: publicProcedure.input(addPhoneInput).mutation(async ({ input }) => {
+  addPhone: cpfProcedure.input(addPhoneInput).mutation(async ({ input }) => {
     const priceNumber = Number(input.price.replace(/[^0-9.-]+/g, ""));
 
     const addPhone = await prisma.phone.create({
@@ -51,7 +51,7 @@ export const phoneRoutes = router({
 
     return addPhone;
   }),
-  editPhoneById: publicProcedure
+  editPhoneById: cpfProcedure
     .input(editPhoneInput)
     .mutation(async ({ input }) => {
       const priceNumber = Number(input.price.replace(/[^0-9.-]+/g, ""));
@@ -72,7 +72,7 @@ export const phoneRoutes = router({
 
       return editPhone;
     }),
-  deletePhoneById: publicProcedure
+  deletePhoneById: cpfProcedure
     .input(z.string())
     .mutation(async ({ input }) => {
       const code = input as string;
@@ -88,60 +88,3 @@ export const phoneRoutes = router({
       return phone as unknown as z.infer<typeof editPhoneInput>;
     }),
 });
-
-const PHONES = [
-  {
-    model: "Redmi 2",
-    brand: "Xiaomi",
-    price: "400",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "BLACK",
-    code: "#12212",
-  },
-  {
-    model: "Galaxy J7 Pro",
-    brand: "Samsung",
-    price: "400",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "BLACK",
-    code: "#22212",
-  },
-  {
-    model: "Redmi Note 10 Pro",
-    brand: "Xiaomi",
-    price: "1500",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "WHITE",
-    code: "#32212",
-  },
-  {
-    model: "Galaxy S22",
-    brand: "Samsung",
-    price: "3500",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "BLACK",
-    code: "#42212",
-  },
-  {
-    model: "Iphone 13 Pro",
-    brand: "Apple",
-    price: "9000",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "BLACK",
-    code: "#52212",
-  },
-  {
-    model: "Iphone 14 Pro",
-    brand: "Apple",
-    price: "9326",
-    date: "26/04/2019",
-    endDate: "12/12/2022",
-    color: "BLACK",
-    code: "#52212",
-  },
-];

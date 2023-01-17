@@ -1,13 +1,17 @@
-import { z, ZodError } from "zod";
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
+import { ZodError } from "zod";
+import { inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import superjson from "superjson";
 
 // Created for each request
-const createContext = ({
+export const createContext = ({
   req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({}); // no context
+}: trpcExpress.CreateExpressContextOptions) => {
+  // Pega a key "cpf" do headers e coloca no contexto tRPC
+  return {
+    cpf: req.headers.cpf,
+  };
+};
 
 type Context = inferAsyncReturnType<typeof createContext>;
 
@@ -27,8 +31,25 @@ export const t = initTRPC.context<Context>().create({
   },
 });
 
+// Obriga CPF
+export const requireCPF = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.cpf) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "CPF obrigatório no header",
+    });
+  }
+
+  const result = await next();
+
+  return result;
+});
+
 // v10 naming
 export const router = t.router;
 // export const middleware = t.middleware;
 export const publicProcedure = t.procedure;
+// Middleware que obriga CPF no headers
+export const cpfProcedure = t.procedure.use(requireCPF);
+// Merge
 export const mergeRouters = t.mergeRouters;

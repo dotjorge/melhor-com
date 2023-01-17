@@ -36,7 +36,13 @@ function App() {
       transformer: superjson,
       links: [
         httpBatchLink({
-          url: 'http://localhost:4000/trpc'
+          url: 'http://localhost:4000/trpc',
+          // CPF no header em todas as requests
+          headers() {
+            return {
+              cpf: '04925787454'
+            }
+          }
         })
       ]
     })
