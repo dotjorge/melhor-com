@@ -34,9 +34,11 @@ export const TableComponent: FC<ITable> = ({
 }) => {
   const Button: RenderButton['Button'] = memo(({ children, ...rest }) => {
     return (
-      <td className="button-column">
-        <button {...rest}>{children}</button>
-      </td>
+      <>
+        <span className="button-column">
+          <button {...rest}>{children}</button>
+        </span>
+      </>
     )
   })
 
@@ -100,10 +102,10 @@ export const TableComponent: FC<ITable> = ({
                   }
                 })}
                 {/* Space */}
-                <th></th>
+                {/* <th></th> */}
                 {/* EDIT/DELETE */}
                 <th></th>
-                <th></th>
+                {/* <th></th> */}
               </tr>
             </thead>
 
@@ -117,14 +119,24 @@ export const TableComponent: FC<ITable> = ({
                       }
                     })}
                     {/* Space */}
-                    <td></td>
-                    {renderButtons &&
+                    {/* <td></td> */}
+                    {/* {renderButtons &&
                       renderButtons({
                         Button,
                         // Transforma o id: number do Prisma em string
                         id: row[idIndex].toString(),
                         index
-                      })}
+                      })} */}
+
+                    <td className="fixed-mobile">
+                      {renderButtons &&
+                        renderButtons({
+                          Button,
+                          // Transforma o id: number do Prisma em string
+                          id: row[idIndex].toString(),
+                          index
+                        })}
+                    </td>
                   </tr>
                 )
               })}

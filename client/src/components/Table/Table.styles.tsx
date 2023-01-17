@@ -62,32 +62,49 @@ const Table = styled.div`
         td {
           padding: var(--item-padding);
           font-size: 17px;
+          height: 100px;
 
-          &.button-column {
-            button {
-              cursor: pointer;
-              border: none;
-              background: none;
-              padding: 5px;
-              border-radius: ${radius[5]};
-              outline: 2px solid transparent;
-              outline-offset: 6px;
+          &.fixed-mobile {
+            position: sticky;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 150px;
+            right: -10px;
+            height: 100px;
+            background: linear-gradient(
+              to right,
+              transparent 0%,
+              ${colors.white} 30%
+            );
 
-              &:hover {
-                background: ${colors.secondary};
-              }
+            .button-column {
+              button {
+                cursor: pointer;
+                border: none;
+                background: none;
+                padding: 5px;
+                border-radius: ${radius[5]};
+                outline: 2px solid transparent;
+                outline-offset: 6px;
 
-              &:active {
-                background: ${colors.primary};
-
-                img {
-                  filter: invert();
+                &:hover {
+                  background: ${colors.secondary};
                 }
-              }
 
-              &:focus {
-                outline-color: ${colors.primary};
-                outline-offset: 2px;
+                &:active {
+                  background: ${colors.primary};
+
+                  img {
+                    filter: invert();
+                  }
+                }
+
+                &:focus {
+                  outline-color: ${colors.primary};
+                  outline-offset: 2px;
+                }
               }
             }
           }
