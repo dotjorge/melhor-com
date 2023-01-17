@@ -306,4 +306,4 @@ Front-end:
 Back-end:
 [http://localhost:4000/](http://localhost:4000/)
 
-> Os projetos são rodados nas mesmas rotas tanto quando rodados individualmente quanto em um comando só
+> Os projetos são rodados nas mesmas rotas tanto individualmente quanto em um comando só
