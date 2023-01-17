@@ -7,9 +7,9 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
   position: sticky;
   left: 0;
+  padding: 0 10px;
 
   h2 {
     margin: 0;
@@ -22,8 +22,12 @@ const Table = styled.div`
   width: 100%;
   max-width: 864px;
   margin: 50px auto;
-  overflow-x: auto;
-  padding: 20px 10px;
+
+  .table-container {
+    padding: 10px;
+    width: 100%;
+    overflow-x: auto;
+  }
 
   table {
     width: 100%;

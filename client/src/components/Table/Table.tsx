@@ -86,49 +86,51 @@ export const TableComponent: FC<ITable> = ({
       {hasNoItems ? (
         <Styled.NoItems>Nenhum item encontrado</Styled.NoItems>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              {titles.map((title, index) => {
-                if (!isId(index)) {
-                  return (
-                    <Fragment key={index}>
-                      <th>{title}</th>
-                    </Fragment>
-                  )
-                }
-              })}
-              {/* Space */}
-              <th></th>
-              {/* EDIT/DELETE */}
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
+        <div className="table-container">
+          <table>
+            <thead>
+              <tr>
+                {titles.map((title, index) => {
+                  if (!isId(index)) {
+                    return (
+                      <Fragment key={index}>
+                        <th>{title}</th>
+                      </Fragment>
+                    )
+                  }
+                })}
+                {/* Space */}
+                <th></th>
+                {/* EDIT/DELETE */}
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {columns.map((row, index) => {
-              return (
-                <tr key={index}>
-                  {row.map((value, index) => {
-                    if (!isId(index)) {
-                      return <td key={index}>{value}</td>
-                    }
-                  })}
-                  {/* Space */}
-                  <td></td>
-                  {renderButtons &&
-                    renderButtons({
-                      Button,
-                      // Transforma o id: number do Prisma em string
-                      id: row[idIndex].toString(),
-                      index
+            <tbody>
+              {columns.map((row, index) => {
+                return (
+                  <tr key={index}>
+                    {row.map((value, index) => {
+                      if (!isId(index)) {
+                        return <td key={index}>{value}</td>
+                      }
                     })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+                    {/* Space */}
+                    <td></td>
+                    {renderButtons &&
+                      renderButtons({
+                        Button,
+                        // Transforma o id: number do Prisma em string
+                        id: row[idIndex].toString(),
+                        index
+                      })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </Styled.Table>
   )
