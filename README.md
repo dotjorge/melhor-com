@@ -286,23 +286,19 @@ yarn start
 
 > Depois disso já estará rodando tanto o repositório front-end quanto back-end:
 
-#### Front-end:
+Front-end: [http://localhost:3000/](http://localhost:3000/)
 
-[http://localhost:3000/](http://localhost:3000/)
-
-#### Back-end:
-
-[http://localhost:4000/](http://localhost:4000/)
+Back-end: [http://localhost:4000/](http://localhost:4000/)
 
 ### Rodar projetos individualmente
 
-#### Rodar apenas o front-end:
+Rodar apenas o front-end:
 
 ```sh
 yarn workspace client start
 ```
 
-#### Rodar apenas o back-end:
+Rodar apenas o back-end:
 
 ```sh
 yarn workspace server start
