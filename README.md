@@ -76,7 +76,7 @@ A responsividade foi feita usando `@media` de maneira simples porém bastante fu
 
 > Node.js com tRPC em um Monorepo
 
-As rotas API foram feitas no back-end em Node com o tRPC, em uma pasta `server/src/router/routeName/routeName.routes.ts`. Cada "endpoint" conta com uma validação `zod`, em um arquivo na mesma pasta chamado `routeName.zod.ts`, que tipa o consumo dele no front e disponibiliza vários utilitarios de infer e manipulação de tipos.
+As rotas API foram feitas no back-end em Node com o tRPC, em uma pasta `server/src/router/routeName/routeName.routes.ts`. Cada "endpoint" conta com uma validação `zod` em um arquivo na mesma pasta chamado `routeName.zod.ts`, que tipa o consumo dele no front e disponibiliza vários utilitarios de infer e manipulação de tipos.
 
 E o ORM utilizado foi o Prisma com `sq-lite`, apenas pela praticidade.
 
