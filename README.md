@@ -10,7 +10,7 @@
 - [💻 Stack usada](#-stack-usada)
 - [🧥 Estilização](#-estilização)
 - [🔙 Rotas API](#-rotas-api)
-- [🚦 Validações](#-validacoes)
+- [🚦 Validações](#-validações)
 - [🔤 Google Fonts](#-google-fonts)
 - [🚀 Rodar o projeto](#-rodar-o-projeto)
 
