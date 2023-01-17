@@ -100,7 +100,7 @@ const phones = trpc.getPhones.useQuery()
  */
 ```
 
-Rota getPhones:
+Rota getPhones no back-end:
 
 ```TS
 export const phoneRoutes = router({
