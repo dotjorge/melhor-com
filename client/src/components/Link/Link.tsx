@@ -15,7 +15,7 @@ export const Link: FC<ILink & DefaultLinkProps & IButton> = props => {
   return (
     <>
       <Styled.LinkButton to={to} {...rest}>
-        <span>{iconLeft}</span>
+        <span className="icon">{iconLeft}</span>
         {text}
       </Styled.LinkButton>
     </>

@@ -13,11 +13,9 @@ export const Button: FC<IButton & DefaultButtonProps> = props => {
   const { text, iconLeft, ...rest } = props
 
   return (
-    <>
-      <Styled.Button {...rest}>
-        <span>{iconLeft}</span>
-        {text}
-      </Styled.Button>
-    </>
+    <Styled.Button {...rest}>
+      <span className="icon">{iconLeft}</span>
+      {text}
+    </Styled.Button>
   )
 }

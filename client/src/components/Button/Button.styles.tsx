@@ -23,7 +23,7 @@ const ButtonAppearence = css`
   transition: color 0.2s ease;
 
   // Icon
-  span {
+  .icon {
     display: flex;
     align-items: center;
     justify-content: center;
