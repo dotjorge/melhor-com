@@ -16,7 +16,7 @@ const TextField = styled((props: TextFieldProps) => {
 })(({ theme }) => ({
   '&': {
     width: '100%',
-    maxWidth: '500px'
+    maxWidth: '700px'
   },
   '& label': {
     position: 'relative',
