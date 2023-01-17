@@ -25,6 +25,8 @@ const Table = styled.div`
 
   .table-container {
     padding: 10px;
+    // Espaço pro indicador do scroll
+    padding-bottom: 20px;
     width: 100%;
     overflow-x: auto;
   }
