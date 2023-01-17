@@ -8,7 +8,13 @@ export const phoneRoutes = router({
   getPhones: publicProcedure.query(async () => {
     const phones = await prisma.phone.findMany();
 
-    return phones;
+    // "color" no Prisma está como string, o enum está no zod,
+    // então aqui ele omite o type do Prisma e adiciona o enum do zod
+    type phone = Omit<typeof phones[number], "color"> & {
+      color: z.infer<typeof addPhoneInput>["color"];
+    };
+
+    return phones as phone[];
   }),
   getPhoneById: publicProcedure
     .input(getPhoneByIdInput)

@@ -24,15 +24,6 @@ export const Select: FC<ISelect & DefaultInputProps> = props => {
 
   const [inputText, setInputText] = useState('')
 
-  const options = [
-    { title: 'Preto', value: 'BLACK' },
-    { title: 'Branco', value: 'WHITE' },
-    { title: 'Ouro', value: 'GOLD' },
-    { title: 'Rosa', value: 'PINK' }
-  ]
-
-  console.log('#select', error)
-
   return (
     <Controller
       name={name}
@@ -94,3 +85,10 @@ export const Select: FC<ISelect & DefaultInputProps> = props => {
     />
   )
 }
+
+export const options = [
+  { title: 'Preto', value: 'BLACK' },
+  { title: 'Branco', value: 'WHITE' },
+  { title: 'Ouro', value: 'GOLD' },
+  { title: 'Rosa', value: 'PINK' }
+] as const

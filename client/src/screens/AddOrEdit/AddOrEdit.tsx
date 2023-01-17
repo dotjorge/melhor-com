@@ -154,14 +154,6 @@ export const AddOrEditPhone: FC<IAddOrEditPhone> = ({
 
           <CurrencyInput label="Preço" name="price" control={control} />
 
-          {/*<TextField
-          name="price"
-          label="Preço"
-          placeholder="R$ 1.500"
-          control={control}
-          error={errors}
-        /> */}
-
           <DatePicker
             name="startDate"
             control={control}
