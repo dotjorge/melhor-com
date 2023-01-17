@@ -284,9 +284,7 @@ O projeto precisa apenas de um comando pra ser rodado, que é:
 yarn start
 ```
 
-> Depois disso já estará rodando tanto o repositório front-end quanto back-end:
-
-### Rodar projetos individualmente
+> Depois disso já estará rodando tanto o repositório front-end quanto back-end
 
 Rodar apenas o front-end:
 
