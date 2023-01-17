@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-// A custom theme for this app
+// Material UI Theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -26,7 +26,6 @@ const theme = createTheme({
 root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
       <App />
     </React.StrictMode>
