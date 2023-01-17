@@ -80,7 +80,7 @@ As rotas API foram feitas no back-end em Node com o tRPC, em uma pasta `server/s
 
 E o ORM utilizado foi o Prisma com `sq-lite`, apenas pela praticidade.
 
-Todas as rotas tRPC são expostas em um endpoint REST já com as validações, mas a maneira correta de as consumir no front é através do tRPC, pra que os parametros e o retorno do endpoint estejam todos tipados e o fetch seja feito através do React Query:
+Todas as rotas tRPC são expostas em um endpoint REST já com as validações, mas a maneira correta de as consumir no front é através do client tRPC, pra que os parametros e o retorno do endpoint estejam todos tipados e o fetch seja feito através do React Query:
 
 ```TS
 const phones = trpc.getPhones.useQuery()
