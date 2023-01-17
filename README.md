@@ -9,6 +9,7 @@
 
 - [💻 Stack usada](#-stack-usada)
 - [🧥 Estilização](#-estilização)
+- [📱 Responsividade](#-responsividade)
 - [🔙 Rotas API](#-rotas-api)
 - [🚦 Validações](#-validações)
 - [🔤 Google Fonts](#-google-fonts)
@@ -66,6 +67,10 @@ const Child = styled.div`
 
 export default { Componente, Child }
 ```
+
+## 📱 Responsividade
+
+A responsividade foi feita usando `@media` de maneira simples porém bastante funcional, usando um iPhone SE (2016).
 
 ## 🔙 Rotas API
 
