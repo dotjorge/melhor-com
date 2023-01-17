@@ -53,7 +53,7 @@ const Componente = styled.div`
   background: blue;
 
   // Filho
-  .child{
+  .child {
     color: black;
   }
 `
@@ -183,7 +183,47 @@ Resposta ao bater em http://localhost:4000/trpc/getPhones:
 
 ## 🚦 Validações
 
-Pra validações foi utilizado a biblioteca `zod`, quase sempre no back-end e reaproveitada no front como por exemplo no schema do react-hook-form pra validar os campos com a mesma validação dos parametros do endpoint.
+Pra validações foi utilizado a biblioteca `zod`, quase sempre no back-end e reaproveitada no front, como por exemplo no schema do react-hook-form pra validar os campos com a mesma validação dos parametros do endpoint.
+
+No back-end:
+
+```TS
+export const addPhoneInput = z.object({
+  model: textMin1Max255,
+  brand: textMin1Max255,
+  // price: z.number(),
+  price: z
+    .string({
+      required_error: requiredMessage.message,
+    })
+    // .transform((priceString) => priceStringToNumber(priceString))
+    .refine(
+      (priceString) => {
+        const priceNumber = Number(priceString.replace(/[^0-9.-]+/g, ""));
+
+        return !Number.isNaN(priceNumber) && priceNumber > 0;
+      },
+      {
+        message: "Apenas números positivos",
+      }
+    ),
+  startDate: phoneDate,
+  endDate: phoneDate,
+  color: z.enum(["BLACK", "WHITE", "GOLD", "PINK"], {
+    // required_error: requiredMessage.message,
+    // invalid_type_error: "Cor inválida",
+    errorMap: (issue, ctx) => {
+      return { message: "Cor inválida" };
+    },
+  }),
+  // code: z
+  //   .string({ invalid_type_error: "Deve ser string" })
+  //   .min(6, "Minimo é 6")
+  //   .max(6, "Máximo é 6"),
+});
+```
+
+No front-end:
 
 ```TS
 import { useForm } from 'react-hook-form'
