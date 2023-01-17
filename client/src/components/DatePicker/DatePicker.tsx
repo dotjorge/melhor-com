@@ -44,11 +44,9 @@ export const DatePicker: FC<IDatePicker & DefaultInputProps> = props => {
                     name={name}
                     onChange={e => {
                       const value = e.target.value
-                      console.log('#DatePicker -> TxT', value, value.length)
                       inputProps?.onChange?.(e)
 
                       if (value.length > 10) {
-                        console.log('#DatePicker -> TxT -> Valid set', value)
                         field.onChange(new Date(value))
                       }
                     }}

@@ -15,8 +15,6 @@ export const TextField = forwardRef((props: ITextField, ref: Ref) => {
   const errorMessage = error?.[name as string]?.message
   const isError = errorMessage
 
-  console.log('#textfield', { error, name, errorMessage })
-
   if (!control) {
     return (
       <div>

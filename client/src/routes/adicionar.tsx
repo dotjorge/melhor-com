@@ -10,7 +10,6 @@ export const AddPhone = () => {
   const addPhone = trpc.addPhone.useMutation({
     onError: error => console.log('#onError', error.message),
     onSuccess: () => {
-      console.log('#onSuccess')
       utils.invalidate()
       navigate(`/`)
     }
@@ -18,7 +17,7 @@ export const AddPhone = () => {
 
   // Erro Zod Backend, provavelmente não vai cair aqui por os campos possuem a mesma validação!
   if (addPhone.error?.data?.zodError) {
-    console.log('#zodError', addPhone.error?.data?.zodError)
+    console.error('#zodError', addPhone.error?.data?.zodError)
   }
 
   return (

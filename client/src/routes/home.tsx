@@ -56,12 +56,7 @@ export const Home = () => {
                 <img src={EditIcon} alt="Editar" />
               </Button>
 
-              <Button
-                onClick={() => {
-                  console.log('#id', id, typeof id)
-                  deletePhone.mutate(id)
-                }}
-              >
+              <Button onClick={() => deletePhone.mutate(id)}>
                 <img src={DeleteIcon} alt="Deletar" />
               </Button>
             </>

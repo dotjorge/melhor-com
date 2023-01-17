@@ -42,7 +42,6 @@ export const addPhoneInput = z.object({
     .refine(
       (priceString) => {
         const priceNumber = Number(priceString.replace(/[^0-9.-]+/g, ""));
-        console.log("#price", priceNumber);
 
         return !Number.isNaN(priceNumber) && priceNumber > 0;
       },
